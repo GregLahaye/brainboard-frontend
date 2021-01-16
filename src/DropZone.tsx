@@ -45,11 +45,7 @@ const DropZone = (props: IDropZonePropsInternal) => {
   };
 
   return (
-    <div
-      className="p-5 dropzone"
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-    >
+    <div className="p-5" onDragOver={handleDragOver} onDrop={handleDrop}>
       {props.children}
     </div>
   );
