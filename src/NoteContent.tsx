@@ -11,6 +11,7 @@ export interface INote {
   id: number;
   content: string;
   notes: number[];
+  note?: number;
 }
 
 export interface INoteContentProps extends INote {

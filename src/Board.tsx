@@ -24,6 +24,7 @@ const Board = (props: IBoardProps) => {
   const params = useParams();
   const { noteId } = params.noteId ? params : props;
 
+  const [note, setNote] = useState<INote>();
   const [notes, setNotes] = useState<INote[]>([]);
 
   const editor = useMemo(() => withReact(createEditor()), []);
@@ -38,6 +39,7 @@ const Board = (props: IBoardProps) => {
 
     const note = await response.json();
 
+    setNote(note);
     setNotes(note.notes);
   };
 
@@ -176,7 +178,35 @@ const Board = (props: IBoardProps) => {
     e.preventDefault();
   };
 
-  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+  const handleUpDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const id = +e.dataTransfer.getData("id");
+
+    const index = notes.map(({ id }) => id).indexOf(id); // find index of src note
+
+    const array = [...notes];
+    array.splice(index, 1); // remove the src note
+    setNotes(array);
+
+    const url = `http://localhost:8000/notes/${id}/`;
+
+    const token = process.env.REACT_APP_TOKEN;
+
+    const method = "PATCH";
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${token}`);
+
+    const body = JSON.stringify({
+      note: note?.note,
+    });
+
+    await fetch(url, { method, headers, body });
+  };
+
+  const handleDeleteDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
 
     const id = +e.dataTransfer.getData("id");
@@ -225,7 +255,14 @@ const Board = (props: IBoardProps) => {
         <div className="p-5">
           <div
             onDragOver={handleDragOver}
-            onDrop={handleDrop}
+            onDrop={handleUpDrop}
+            className="bg-gray-500 w-full h-full rounded-lg"
+          ></div>
+        </div>
+        <div className="p-5">
+          <div
+            onDragOver={handleDragOver}
+            onDrop={handleDeleteDrop}
             className="bg-red-500 w-full h-full rounded-lg"
           ></div>
         </div>
