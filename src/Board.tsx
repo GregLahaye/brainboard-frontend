@@ -41,7 +41,7 @@ const Board = (props: IBoardProps) => {
     setNotes(note.notes);
   };
 
-  const drop = (srcId: number, dstId: number) => {
+  const drop = async (srcId: number, dstId: number) => {
     const src = notes.find(({ id }) => id === srcId)!;
     const dst = notes.find(({ id }) => id === dstId)!;
 
@@ -56,6 +56,22 @@ const Board = (props: IBoardProps) => {
       setNotes(array);
 
       console.log(srcId + " was dropped inside " + dstId);
+
+      const url = `http://localhost:8000/notes/${src.id}/`;
+
+      const token = process.env.REACT_APP_TOKEN;
+
+      const method = "PATCH";
+
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("Authorization", `Bearer ${token}`);
+
+      const body = JSON.stringify({
+        note: dst.id,
+      });
+
+      await fetch(url, { method, headers, body });
     }
   };
 
