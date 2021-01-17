@@ -293,14 +293,16 @@ const Board = (props: IBoardProps) => {
 
       <div className="grid grid-flow-row grid-cols-3 grid-rows-5">
         <AnimateNotes>{elements}</AnimateNotes>
-        <div className="p-5">
-          <button
-            onClick={navigateUp}
-            onDragOver={handleDragOver}
-            onDrop={handleUpDrop}
-            className="bg-gray-500 w-full h-full rounded-lg"
-          ></button>
-        </div>
+        {note?.note ? (
+          <div className="p-5">
+            <button
+              onClick={navigateUp}
+              onDragOver={handleDragOver}
+              onDrop={handleUpDrop}
+              className="bg-gray-500 w-full h-full rounded-lg"
+            ></button>
+          </div>
+        ) : null}
         <div className="p-5">
           <button
             onDragOver={handleDragOver}
