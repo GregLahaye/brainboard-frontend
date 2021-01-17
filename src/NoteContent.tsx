@@ -1,6 +1,7 @@
 // @refresh reset
 
 import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router";
 import { createEditor, Node } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 
@@ -20,6 +21,8 @@ const defaultColor = "purple-600";
 const dropColor = "blue-600";
 
 const NoteContent = (props: INoteContentProps) => {
+  const navigate = useNavigate();
+
   const [color, setColor] = useState(defaultColor);
   const [count, setCount] = useState(0); // workaround for unstable drag events
 
@@ -67,7 +70,7 @@ const NoteContent = (props: INoteContentProps) => {
   };
 
   const handleClick = () => {
-    // navigate to note
+    navigate(`/notes/${props.id}`);
   };
 
   return (
