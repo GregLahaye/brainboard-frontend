@@ -7,7 +7,7 @@ import AnimateNotes, { ForwardRefElement } from "./AnimateNotes";
 import Note from "./Note";
 import { INote } from "./NoteContent";
 import { Quadrant } from "./math";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 
 interface IBoardProps {
   noteId?: number;
@@ -21,6 +21,8 @@ const EMPTY = [
 ];
 
 const Board = (props: IBoardProps) => {
+  const navigate = useNavigate();
+
   const params = useParams();
   const { noteId } = params.noteId ? params : props;
 
@@ -173,11 +175,11 @@ const Board = (props: IBoardProps) => {
       ) as any
   );
 
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDragOver = (e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
 
-  const handleUpDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+  const handleUpDrop = async (e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const id = +e.dataTransfer.getData("id");
@@ -205,7 +207,7 @@ const Board = (props: IBoardProps) => {
     await fetch(url, { method, headers, body });
   };
 
-  const handleDeleteDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDeleteDrop = async (e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     const id = +e.dataTransfer.getData("id");
@@ -227,6 +229,12 @@ const Board = (props: IBoardProps) => {
     headers.append("Authorization", `Bearer ${token}`);
 
     await fetch(url, { method, headers });
+  };
+
+  const navigateUp = () => {
+    if (note?.note) {
+      navigate(`/notes/${note?.note}`);
+    }
   };
 
   return (
@@ -252,18 +260,19 @@ const Board = (props: IBoardProps) => {
       <div className="grid grid-flow-row grid-cols-3 grid-rows-5">
         <AnimateNotes>{elements}</AnimateNotes>
         <div className="p-5">
-          <div
+          <button
+            onClick={navigateUp}
             onDragOver={handleDragOver}
             onDrop={handleUpDrop}
             className="bg-gray-500 w-full h-full rounded-lg"
-          ></div>
+          ></button>
         </div>
         <div className="p-5">
-          <div
+          <button
             onDragOver={handleDragOver}
             onDrop={handleDeleteDrop}
             className="bg-red-500 w-full h-full rounded-lg"
-          ></div>
+          ></button>
         </div>
       </div>
     </div>
