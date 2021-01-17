@@ -1,12 +1,18 @@
+// @refresh reset
+
 import React, { useState, useEffect, useMemo } from "react";
 import { createEditor, Node } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 
-const activeColor = "blue-300";
-const inactiveColor = "gray-300";
+interface IBoxContentProps {
+  id: string;
+}
 
-const BoxContent = (props: any) => {
-  const [color, setColor] = useState(inactiveColor);
+const defaultColor = "purple-600";
+const dropColor = "blue-600";
+
+const BoxContent = (props: IBoxContentProps) => {
+  const [color, setColor] = useState(defaultColor);
   const [count, setCount] = useState(0); // workaround for unstable drag events
 
   const editor = useMemo(() => withReact(createEditor()), []);
@@ -18,8 +24,7 @@ const BoxContent = (props: any) => {
   ]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    const id = (e.target as HTMLDivElement).id;
-    e.dataTransfer.setData("id", id);
+    e.dataTransfer.setData("id", props.id);
   };
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -36,9 +41,9 @@ const BoxContent = (props: any) => {
 
   useEffect(() => {
     if (count > 0) {
-      setColor(activeColor);
+      setColor(dropColor);
     } else {
-      setColor(inactiveColor);
+      setColor(defaultColor);
     }
   }, [count]);
 
@@ -48,14 +53,14 @@ const BoxContent = (props: any) => {
 
     setCount(0);
 
-    const data = e.dataTransfer.getData("id"); // get id of srrc
-    console.log(data + " was dropped inside " + props.id);
+    const id = e.dataTransfer.getData("id"); // get id of srrc
+    console.log(id + " was dropped inside " + props.id);
   };
 
   return (
     <div
       id={props.id}
-      className={`bg-${color} p-5`}
+      className={`flex-shrink-0 bg-${color} text-white text-base font-semibold py-4 px-5 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200`}
       draggable={true}
       onDragStart={handleDragStart}
       onDragEnter={handleDragEnter}

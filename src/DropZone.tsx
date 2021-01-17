@@ -13,15 +13,15 @@ interface IDropZonePropsInternal extends IDropZoneProps {
 const DropZone = (props: IDropZonePropsInternal) => {
   const [quadrant, setQuadrant] = useState<Quadrant>();
 
-  const handleDrop = (e: any) => {
+  const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
 
-    const data = e.dataTransfer.getData("id"); // get id of src
+    const id = e.dataTransfer.getData("id"); // get id of src
 
-    props.reorder(data, props.children.props.id, quadrant!);
+    props.reorder(id, props.children.props.id, quadrant!);
   };
 
-  const handleDragOver = (e: any) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
 
     const x = e.pageX;
@@ -29,7 +29,7 @@ const DropZone = (props: IDropZonePropsInternal) => {
 
     const point = new Point(x, y);
 
-    const rect = e.target.getBoundingClientRect();
+    const rect = e.currentTarget.getBoundingClientRect();
 
     const x1 = rect.x;
     const y1 = rect.y;
