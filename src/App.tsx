@@ -34,6 +34,24 @@ const App = () => {
     setBoxes(array);
   };
 
+  const drop = (srcId: string, dstId: string) => {
+    const src = boxes.find(({ id }) => id === srcId)!;
+    const dst = boxes.find(({ id }) => id === dstId)!;
+
+    const srcIndex = boxes.map(({ id }) => id).indexOf(src.id); // find index of src box
+    const dstIndex = boxes.map(({ id }) => id).indexOf(dst.id); // find index of dst box
+
+    if (srcIndex !== dstIndex) {
+      const array = [...boxes]; // create a copy of the boxes
+
+      array.splice(srcIndex, 1); // remove the src box
+
+      setBoxes(array);
+
+      console.log(srcId + " was dropped inside " + dstId);
+    }
+  };
+
   const reorder = (srcId: string, dstId: string, quadrant: Quadrant) => {
     const src = boxes.find(({ id }) => id === srcId)!;
     const dst = boxes.find(({ id }) => id === dstId)!;
@@ -97,7 +115,13 @@ const App = () => {
   const elements: ForwardRefElement[] = boxes.map(
     (box) =>
       (
-        <Box key={box.id} {...box} ref={createRef()} reorder={reorder}></Box>
+        <Box
+          key={box.id}
+          {...box}
+          ref={createRef()}
+          drop={drop}
+          reorder={reorder}
+        ></Box>
       ) as any
   );
 

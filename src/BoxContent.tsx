@@ -9,10 +9,14 @@ export interface IBox {
   content: string;
 }
 
+export interface IBoxContentProps extends IBox {
+  drop: (src: string, dst: string) => void;
+}
+
 const defaultColor = "purple-600";
 const dropColor = "blue-600";
 
-const BoxContent = (props: IBox) => {
+const BoxContent = (props: IBoxContentProps) => {
   const [color, setColor] = useState(defaultColor);
   const [count, setCount] = useState(0); // workaround for unstable drag events
 
@@ -54,8 +58,9 @@ const BoxContent = (props: IBox) => {
 
     setCount(0);
 
-    const id = e.dataTransfer.getData("id"); // get id of srrc
-    console.log(id + " was dropped inside " + props.id);
+    const id = e.dataTransfer.getData("id"); // get id of src
+
+    props.drop(id, props.id);
   };
 
   return (
