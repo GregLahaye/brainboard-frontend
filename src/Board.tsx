@@ -2,7 +2,7 @@
 
 import React, { createRef, useEffect, useMemo, useState } from "react";
 import { createEditor, Node } from "slate";
-import { withReact, Slate, Editable, ReactEditor } from "slate-react";
+import { withReact, Slate, Editable } from "slate-react";
 import AnimateNotes, { ForwardRefElement } from "./AnimateNotes";
 import Note from "./Note";
 import { INote } from "./NoteContent";
@@ -194,7 +194,7 @@ const Board = (props: IBoardProps) => {
     if (noteId) {
       fetchNotes();
     }
-  }, [noteId]);
+  }, [noteId, fetchNotes]);
 
   const elements: ForwardRefElement[] = notes.map(
     (note) =>

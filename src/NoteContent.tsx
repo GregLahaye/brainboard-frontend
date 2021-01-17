@@ -101,7 +101,7 @@ const NoteContent = (props: INoteContentProps) => {
 
   useEffect(() => {
     patchNote();
-  }, [value]);
+  }, [value, patchNote]);
 
   return (
     <div
