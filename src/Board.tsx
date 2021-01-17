@@ -32,19 +32,6 @@ const Board = (props: IBoardProps) => {
   const editor = useMemo(() => withReact(createEditor()), []);
   const [value, setValue] = useState<Node[]>(EMPTY);
 
-  const fetchNotes = async () => {
-    const headers = new Headers();
-    headers.append("Authorization", `Bearer ${process.env.REACT_APP_TOKEN}`);
-
-    const url = `http://localhost:8000/notes/${noteId}/`;
-    const response = await fetch(url, { headers });
-
-    const note = await response.json();
-
-    setNote(note);
-    setNotes(note.notes);
-  };
-
   const drop = async (srcId: number, dstId: number) => {
     const src = notes.find(({ id }) => id === srcId)!;
     const dst = notes.find(({ id }) => id === dstId)!;
@@ -191,10 +178,23 @@ const Board = (props: IBoardProps) => {
   };
 
   useEffect(() => {
+    const fetchNotes = async () => {
+      const headers = new Headers();
+      headers.append("Authorization", `Bearer ${process.env.REACT_APP_TOKEN}`);
+
+      const url = `http://localhost:8000/notes/${noteId}/`;
+      const response = await fetch(url, { headers });
+
+      const note = await response.json();
+
+      setNote(note);
+      setNotes(note.notes);
+    };
+
     if (noteId) {
       fetchNotes();
     }
-  }, [noteId, fetchNotes]);
+  }, [noteId]);
 
   const elements: ForwardRefElement[] = notes.map(
     (note) =>
