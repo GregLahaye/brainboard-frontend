@@ -151,7 +151,6 @@ const Board = (props: IBoardProps) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
       e.currentTarget.blur();
-      setTimeout(() => ReactEditor.focus(editor), 100);
     }
   };
 
