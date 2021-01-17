@@ -169,10 +169,37 @@ const Board = (props: IBoardProps) => {
       ) as any
   );
 
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+  const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const id = +e.dataTransfer.getData("id");
+
+    const index = notes.map(({ id }) => id).indexOf(id); // find index of src note
+
+    const array = [...notes];
+    array.splice(index, 1); // remove the src note
+    setNotes(array);
+
+    const url = `http://localhost:8000/notes/${id}/`;
+
+    const token = process.env.REACT_APP_TOKEN;
+
+    const method = "DELETE";
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${token}`);
+
+    await fetch(url, { method, headers });
+  };
+
   return (
     <div>
       <div className={"flex pt-5"}>
-        <div className="m-auto w-full sm:w-3/4 md:w-1/2 lg:w-1/3">
+        <div className="m-auto w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3">
           <Slate
             editor={editor}
             value={value}
@@ -190,6 +217,13 @@ const Board = (props: IBoardProps) => {
 
       <div className="grid grid-flow-row grid-cols-3 grid-rows-5">
         <AnimateNotes>{elements}</AnimateNotes>
+        <div className="p-5">
+          <div
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
+            className="bg-red-500 w-full h-full rounded-lg"
+          ></div>
+        </div>
       </div>
     </div>
   );
