@@ -74,6 +74,34 @@ const NoteContent = (props: INoteContentProps) => {
     navigate(`/notes/${props.id}`);
   };
 
+  const patchNote = async () => {
+    const serialize = (nodes: Node[]) => {
+      return nodes.map((n) => Node.string(n)).join("\n");
+    };
+
+    const content = serialize(value);
+
+    const url = `http://localhost:8000/notes/${props.id}/`;
+
+    const token = process.env.REACT_APP_TOKEN;
+
+    const method = "PATCH";
+
+    const headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    headers.append("Authorization", `Bearer ${token}`);
+
+    const body = JSON.stringify({
+      content,
+    });
+
+    await fetch(url, { method, headers, body });
+  };
+
+  useEffect(() => {
+    patchNote();
+  }, [value]);
+
   return (
     <div
       id={String(props.id)}
