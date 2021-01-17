@@ -4,14 +4,15 @@ import React, { useState, useEffect, useMemo } from "react";
 import { createEditor, Node } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 
-interface IBoxContentProps {
+export interface IBox {
   id: string;
+  content: string;
 }
 
 const defaultColor = "purple-600";
 const dropColor = "blue-600";
 
-const BoxContent = (props: IBoxContentProps) => {
+const BoxContent = (props: IBox) => {
   const [color, setColor] = useState(defaultColor);
   const [count, setCount] = useState(0); // workaround for unstable drag events
 
@@ -19,7 +20,7 @@ const BoxContent = (props: IBoxContentProps) => {
   const [value, setValue] = useState<Node[]>([
     {
       type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }],
+      children: [{ text: props.content }],
     },
   ]);
 
@@ -60,7 +61,7 @@ const BoxContent = (props: IBoxContentProps) => {
   return (
     <div
       id={props.id}
-      className={`flex-shrink-0 bg-${color} text-white text-base font-semibold py-4 px-5 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200`}
+      className={`flex-shrink-0 bg-${color} text-white text-base font-semibold py-4 px-5 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200`}
       draggable={true}
       onDragStart={handleDragStart}
       onDragEnter={handleDragEnter}

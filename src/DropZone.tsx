@@ -1,8 +1,8 @@
 import { useState } from "react";
+import { IBox } from "./BoxContent";
 import { Quadrant, Point, Rectangle } from "./math";
 
-export interface IDropZoneProps {
-  id: string;
+export interface IDropZoneProps extends IBox {
   reorder: (start: string, end: string, quadrant: Quadrant) => void;
 }
 

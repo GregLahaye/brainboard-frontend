@@ -5,8 +5,8 @@ import DropZone, { IDropZoneProps } from "./DropZone";
 const Box = forwardRef<HTMLDivElement, IDropZoneProps>(
   (props: IDropZoneProps, ref) => (
     <div ref={ref}>
-      <DropZone id={props.id} key={props.id} reorder={props.reorder}>
-        <BoxContent id={props.id} />
+      <DropZone key={props.id} {...props} reorder={props.reorder}>
+        <BoxContent {...props} />
       </DropZone>
     </div>
   )

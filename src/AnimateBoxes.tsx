@@ -60,6 +60,7 @@ const AnimateBoxes = ({ children }: { children: ForwardRefElement[] }) => {
         const element = child.ref.current;
         const prevRect = prevBoundingRects[child.key];
         const currentRect = boundingRects[child.key];
+        if (!prevRect || !currentRect) return;
         const changeInX = prevRect.left - currentRect.left;
         const changeInY = prevRect.top - currentRect.top;
 
