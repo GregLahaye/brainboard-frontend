@@ -28,7 +28,11 @@ const App = () => {
     const array: IBox[] = [];
 
     for (let i = 0; i < numBoxes; i++) {
-      array.push({ id: String(i), content: "text" });
+      array.push({
+        id: String(i),
+        content: "text",
+        boxes: Math.random() > 0.5,
+      });
     }
 
     setBoxes(array);
@@ -97,7 +101,10 @@ const App = () => {
     const content = serialize(value);
 
     if (content) {
-      setBoxes([...boxes, { id: String(Math.random()), content }]);
+      setBoxes([
+        ...boxes,
+        { id: String(Math.random()), content, boxes: false },
+      ]);
       setValue(EMPTY);
     }
   };
