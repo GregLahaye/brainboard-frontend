@@ -57,6 +57,8 @@ const Board = (props: IBoardProps) => {
 
       array.splice(srcIndex, 1); // remove the src note
 
+      dst.notes.push(src); // add src to dst
+
       setNotes(array);
 
       console.log(srcId + " was dropped inside " + dstId);
@@ -76,8 +78,6 @@ const Board = (props: IBoardProps) => {
       });
 
       await fetch(url, { method, headers, body });
-
-      // TODO: update state
     }
   };
 
