@@ -4,22 +4,22 @@ import React, { useState, useEffect, useMemo } from "react";
 import { createEditor, Node } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
 
-import "./BoxContent.css";
+import "./NoteContent.css";
 
-export interface IBox {
-  id: string;
+export interface INote {
+  id: number;
   content: string;
-  boxes: boolean;
+  notes: number[];
 }
 
-export interface IBoxContentProps extends IBox {
-  drop: (src: string, dst: string) => void;
+export interface INoteContentProps extends INote {
+  drop: (src: number, dst: number) => void;
 }
 
 const defaultColor = "purple-600";
 const dropColor = "blue-600";
 
-const BoxContent = (props: IBoxContentProps) => {
+const NoteContent = (props: INoteContentProps) => {
   const [color, setColor] = useState(defaultColor);
   const [count, setCount] = useState(0); // workaround for unstable drag events
 
@@ -32,7 +32,7 @@ const BoxContent = (props: IBoxContentProps) => {
   ]);
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    e.dataTransfer.setData("id", props.id);
+    e.dataTransfer.setData("id", String(props.id));
   };
 
   const handleDragEnter = (e: React.DragEvent<HTMLDivElement>) => {
@@ -61,7 +61,7 @@ const BoxContent = (props: IBoxContentProps) => {
 
     setCount(0);
 
-    const id = e.dataTransfer.getData("id"); // get id of src
+    const id = +e.dataTransfer.getData("id"); // get id of src
 
     props.drop(id, props.id);
   };
@@ -72,7 +72,7 @@ const BoxContent = (props: IBoxContentProps) => {
 
   return (
     <div
-      id={props.id}
+      id={String(props.id)}
       className={`flex flex-shrink-0 bg-${color} text-white text-base font-semibold py-1 pl-3 pr-2 md:py-4 md:pl-5 md:pr-4 rounded-lg shadow-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-purple-200`}
       draggable={true}
       onDragStart={handleDragStart}
@@ -88,7 +88,7 @@ const BoxContent = (props: IBoxContentProps) => {
         <Editable className="flex-1 float-left" />
       </Slate>
 
-      {props.boxes ? (
+      {props.notes.length ? (
         <button
           className="w-5 float-right hover:blue-300"
           onClick={handleClick}
@@ -111,4 +111,4 @@ const BoxContent = (props: IBoxContentProps) => {
   );
 };
 
-export default BoxContent;
+export default NoteContent;

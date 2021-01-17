@@ -33,7 +33,7 @@ const calculateBoundingRects = (children: ForwardRefElement[]) => {
   return boundingRects;
 };
 
-const AnimateBoxes = ({ children }: { children: ForwardRefElement[] }) => {
+const AnimateNotes = ({ children }: { children: ForwardRefElement[] }) => {
   const [boundingRects, setBoundingRects] = useState<IBoundingRectMap>({});
   const [prevBoundingRects, setPrevBoundingRects] = useState<IBoundingRectMap>(
     {}
@@ -89,4 +89,4 @@ const AnimateBoxes = ({ children }: { children: ForwardRefElement[] }) => {
   return <>{children.map((child) => child)}</>;
 };
 
-export default AnimateBoxes;
+export default AnimateNotes;

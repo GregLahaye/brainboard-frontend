@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { IBoxContentProps } from "./BoxContent";
+import { INoteContentProps } from "./NoteContent";
 import { Quadrant, Point, Rectangle } from "./math";
 
-export interface IDropZoneProps extends IBoxContentProps {
-  reorder: (start: string, end: string, quadrant: Quadrant) => void;
+export interface IDropZoneProps extends INoteContentProps {
+  reorder: (start: number, end: number, quadrant: Quadrant) => void;
 }
 
 interface IDropZonePropsInternal extends IDropZoneProps {
@@ -16,7 +16,7 @@ const DropZone = (props: IDropZonePropsInternal) => {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
 
-    const id = e.dataTransfer.getData("id"); // get id of src
+    const id = +e.dataTransfer.getData("id"); // get id of src
 
     props.reorder(id, props.children.props.id, quadrant!);
   };
@@ -37,9 +37,9 @@ const DropZone = (props: IDropZonePropsInternal) => {
     const x2 = rect.x + rect.width;
     const y2 = rect.y + rect.height;
 
-    const box = new Rectangle(new Point(x1, y1), new Point(x2, y2));
+    const note = new Rectangle(new Point(x1, y1), new Point(x2, y2));
 
-    const quadrant = box.quadrant(point);
+    const quadrant = note.quadrant(point);
 
     setQuadrant(quadrant);
   };

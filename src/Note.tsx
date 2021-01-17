@@ -1,15 +1,15 @@
 import React, { forwardRef } from "react";
-import BoxContent from "./BoxContent";
+import NoteContent from "./NoteContent";
 import DropZone, { IDropZoneProps } from "./DropZone";
 
-const Box = forwardRef<HTMLDivElement, IDropZoneProps>(
+const Note = forwardRef<HTMLDivElement, IDropZoneProps>(
   (props: IDropZoneProps, ref) => (
     <div ref={ref}>
       <DropZone key={props.id} {...props} reorder={props.reorder}>
-        <BoxContent {...props} />
+        <NoteContent {...props} />
       </DropZone>
     </div>
   )
 );
 
-export default Box;
+export default Note;
