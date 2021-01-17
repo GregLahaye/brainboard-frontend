@@ -81,7 +81,7 @@ const Board = (props: IBoardProps) => {
     }
   };
 
-  const reorder = (srcId: number, dstId: number, quadrant: Quadrant) => {
+  const reorder = async (srcId: number, dstId: number, quadrant: Quadrant) => {
     const src = notes.find(({ id }) => id === srcId)!;
     const dst = notes.find(({ id }) => id === dstId)!;
 
@@ -104,17 +104,47 @@ const Board = (props: IBoardProps) => {
         array.splice(dstIndex + 1, 0, src); // insert src after dst
       }
 
+      let minPosition: number;
+      let maxPosition: number;
       if (srcIndex > dstIndex) {
+        minPosition = dstIndex ? array[dstIndex - 1].position : 0;
+        maxPosition = dst.position;
         array.splice(srcIndex + 1, 1); // remove the src note
       } else {
+        minPosition = dst.position;
+        maxPosition =
+          dstIndex < array.length
+            ? array[dstIndex + 1].position
+            : dst.position + 1000;
         array.splice(srcIndex, 1); // remove the src note
       }
+
+      const newPosition =
+        minPosition + Math.round((maxPosition - minPosition) / 2);
+
+      src.position = newPosition;
 
       console.log(
         `${src} was dropped ${moveBefore ? "before" : "after"} ${dst}`
       );
 
       setNotes(array); // update notes
+
+      const url = `http://localhost:8000/notes/${src.id}/`;
+
+      const token = process.env.REACT_APP_TOKEN;
+
+      const method = "PATCH";
+
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("Authorization", `Bearer ${token}`);
+
+      const body = JSON.stringify({
+        position: newPosition,
+      });
+
+      await fetch(url, { method, headers, body });
     }
   };
 
@@ -124,6 +154,9 @@ const Board = (props: IBoardProps) => {
     };
 
     const content = serialize(value);
+
+    const position =
+      (notes.length ? notes[notes.length - 1].position : 0) + 1000;
 
     if (content) {
       const url = "http://localhost:8000/notes/";
@@ -138,6 +171,7 @@ const Board = (props: IBoardProps) => {
 
       const body = JSON.stringify({
         content,
+        position,
         note: noteId,
       });
 

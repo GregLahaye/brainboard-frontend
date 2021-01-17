@@ -10,6 +10,7 @@ import "./NoteContent.css";
 export interface INote {
   id: number;
   content: string;
+  position: number;
   notes: INote[];
   note?: number;
 }
