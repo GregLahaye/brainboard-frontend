@@ -2,7 +2,7 @@
 
 import React, { createRef, useEffect, useMemo, useState } from "react";
 import { createEditor, Node } from "slate";
-import { withReact, Slate, Editable } from "slate-react";
+import { withReact, Slate, Editable, ReactEditor } from "slate-react";
 import AnimateNotes, { ForwardRefElement } from "./AnimateNotes";
 import Note from "./Note";
 import { INote } from "./NoteContent";
@@ -72,6 +72,8 @@ const Board = (props: IBoardProps) => {
       });
 
       await fetch(url, { method, headers, body });
+
+      // TODO: update state
     }
   };
 
@@ -132,7 +134,7 @@ const Board = (props: IBoardProps) => {
 
       const body = JSON.stringify({
         content,
-        note: 1,
+        note: noteId,
       });
 
       const response = await fetch(url, { method, headers, body });
@@ -147,6 +149,7 @@ const Board = (props: IBoardProps) => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Escape") {
       e.currentTarget.blur();
+      setTimeout(() => ReactEditor.focus(editor), 100);
     }
   };
 
@@ -172,6 +175,7 @@ const Board = (props: IBoardProps) => {
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
   };
+
   const handleDrop = async (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
 
@@ -206,6 +210,7 @@ const Board = (props: IBoardProps) => {
             onChange={(newValue) => setValue(newValue)}
           >
             <Editable
+              autoFocus={true}
               className="px-3 py-2 text-base font-semibold ring-2 ring-blue-500 focus:ring-offset-1 focus:ring-offset-blue-300 rounded-sm"
               placeholder="Take a note..."
               onBlur={handleEditorBlur}
