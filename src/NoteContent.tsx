@@ -83,7 +83,7 @@ const NoteContent = (props: INoteContentProps) => {
 
       const content = serialize(value);
 
-      const url = `http://localhost:8000/notes/${props.id}/`;
+      const url = `${process.env.REACT_APP_API_URL}/notes/${props.id}/`;
 
       const token = process.env.REACT_APP_TOKEN;
 

@@ -50,7 +50,7 @@ const Board = (props: IBoardProps) => {
 
       console.log(srcId + " was dropped inside " + dstId);
 
-      const url = `http://localhost:8000/notes/${src.id}/`;
+      const url = `${process.env.REACT_APP_API_URL}/notes/${src.id}/`;
 
       const token = process.env.REACT_APP_TOKEN;
 
@@ -117,7 +117,7 @@ const Board = (props: IBoardProps) => {
 
       setNotes(array); // update notes
 
-      const url = `http://localhost:8000/notes/${src.id}/`;
+      const url = `${process.env.REACT_APP_API_URL}/notes/${src.id}/`;
 
       const token = process.env.REACT_APP_TOKEN;
 
@@ -146,7 +146,7 @@ const Board = (props: IBoardProps) => {
       (notes.length ? notes[notes.length - 1].position : 0) + 1000;
 
     if (content) {
-      const url = "http://localhost:8000/notes/";
+      const url = `${process.env.REACT_APP_API_URL}/notes/`;
 
       const token = process.env.REACT_APP_TOKEN;
 
@@ -182,7 +182,7 @@ const Board = (props: IBoardProps) => {
       const headers = new Headers();
       headers.append("Authorization", `Bearer ${process.env.REACT_APP_TOKEN}`);
 
-      const url = `http://localhost:8000/notes/${noteId}/`;
+      const url = `${process.env.REACT_APP_API_URL}/notes/${noteId}/`;
       const response = await fetch(url, { headers });
 
       const note = await response.json();
@@ -224,7 +224,7 @@ const Board = (props: IBoardProps) => {
     array.splice(index, 1); // remove the src note
     setNotes(array);
 
-    const url = `http://localhost:8000/notes/${id}/`;
+    const url = `${process.env.REACT_APP_API_URL}/notes/${id}/`;
 
     const token = process.env.REACT_APP_TOKEN;
 
@@ -252,7 +252,7 @@ const Board = (props: IBoardProps) => {
     array.splice(index, 1); // remove the src note
     setNotes(array);
 
-    const url = `http://localhost:8000/notes/${id}/`;
+    const url = `${process.env.REACT_APP_API_URL}/notes/${id}/`;
 
     const token = process.env.REACT_APP_TOKEN;
 

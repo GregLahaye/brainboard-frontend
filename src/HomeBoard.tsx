@@ -5,7 +5,7 @@ const HomeBoard = () => {
   const [noteId, setNoteId] = useState<number>();
 
   const fetchId = async () => {
-    const url = "http://localhost:8000/users/me/";
+    const url = `${process.env.REACT_APP_API_URL}/users/me/`;
 
     const headers = new Headers();
     headers.append("Authorization", `Bearer ${process.env.REACT_APP_TOKEN}`);
