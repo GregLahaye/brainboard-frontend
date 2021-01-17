@@ -1,3 +1,7 @@
 #enter:hover {
   fill: #ffd700;
 }
+
+#add:hover {
+  stroke: #00ff00;
+}

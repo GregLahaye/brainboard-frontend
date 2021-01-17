@@ -121,11 +121,8 @@ const NoteContent = (props: INoteContentProps) => {
         <Editable className="flex-1 float-left" />
       </Slate>
 
-      {props.notes.length ? (
-        <button
-          className="w-5 float-right hover:blue-300"
-          onClick={handleClick}
-        >
+      <button className="w-5 float-right hover:blue-300" onClick={handleClick}>
+        {props.notes.length ? (
           <svg
             id="enter"
             xmlns="http://www.w3.org/2000/svg"
@@ -138,8 +135,23 @@ const NoteContent = (props: INoteContentProps) => {
               clipRule="evenodd"
             />
           </svg>
-        </button>
-      ) : null}
+        ) : (
+          <svg
+            id="add"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
+          </svg>
+        )}
+      </button>
     </div>
   );
 };
