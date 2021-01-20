@@ -2,7 +2,7 @@ import { FormEvent, useContext, useState } from "react";
 import { Network } from "../network/network";
 import { UserActionType, UserContext } from "./UserContext";
 
-const LogIn = () => {
+const SignUp = () => {
   const { dispatch } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
@@ -16,12 +16,15 @@ const LogIn = () => {
       password,
     };
 
-    const response = await Network.post("token", body);
+    const signUpResponse = await Network.post("users", body);
 
-    const { token } = await response.json();
+    const loginInResponse = await Network.post("token", body);
+
+    const { token } = await loginInResponse.json();
+
     const payload = { username, token };
 
-    dispatch({ type: UserActionType.LOGIN, payload });
+    dispatch({ type: UserActionType.SIGNUP, payload });
   };
 
   return (
@@ -34,7 +37,7 @@ const LogIn = () => {
             alt="Workflow"
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Log in to your account
+            Create an account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{" "}
@@ -42,7 +45,7 @@ const LogIn = () => {
               href="#"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              create an account
+              log in to your account
             </a>
           </p>
         </div>
@@ -82,17 +85,6 @@ const LogIn = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-end">
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
           <div>
             <button
               type="submit"
@@ -113,7 +105,7 @@ const LogIn = () => {
                   />
                 </svg>
               </span>
-              Log in
+              Sign up
             </button>
           </div>
         </form>
@@ -122,4 +114,4 @@ const LogIn = () => {
   );
 };
 
-export default LogIn;
+export default SignUp;

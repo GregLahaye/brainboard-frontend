@@ -5,6 +5,7 @@ import "./App.css";
 import Board from "./Board";
 import HomeBoard from "./HomeBoard";
 import LogIn from "./user/LogIn";
+import SignUp from "./user/SignUp";
 import { userReducer, UserContext, unauthenticated } from "./user/UserContext";
 
 const App = () => {
@@ -15,6 +16,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<LogIn />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
           <Route path="/notes/:noteId" element={<Board />}></Route>
           <Route path="/notes" element={<HomeBoard />}></Route>
         </Routes>
