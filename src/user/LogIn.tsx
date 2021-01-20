@@ -1,7 +1,8 @@
 import { FormEvent, useContext, useState } from "react";
+import { Network } from "../network/network";
 import { UserActionType, UserContext } from "./UserContext";
 
-const Login = () => {
+const LogIn = () => {
   const { dispatch } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
@@ -10,24 +11,17 @@ const Login = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const headers = new Headers();
-    headers.set("Content-Type", "application/json");
-
     const body = {
       username,
       password,
     };
 
-    const response = await fetch(`${process.env.REACT_APP_API_URL}/token/`, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(body),
-    });
+    const response = await Network.post("token", body);
 
     const { token } = await response.json();
     const payload = { username, token };
 
-    dispatch({ type: UserActionType.LOGIN, payload });
+    dispatch({ type: UserActionType.LogIn, payload });
   };
 
   return (
@@ -128,4 +122,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LogIn;
