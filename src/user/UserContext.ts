@@ -1,4 +1,4 @@
-import { createContext, Dispatch, ReducerState } from "react";
+import { createContext, Dispatch } from "react";
 import { LocalStorage, LocalStorageKey } from "../local-storage/local-storage";
 
 /* User Interface */

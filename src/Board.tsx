@@ -170,7 +170,7 @@ const Board = (props: IBoardProps) => {
     if (noteId) {
       fetchNotes();
     }
-  }, [noteId]);
+  }, [noteId, state.token]);
 
   const elements: ForwardRefElement[] = notes.map(
     (note) =>

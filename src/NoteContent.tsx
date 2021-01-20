@@ -87,16 +87,6 @@ const NoteContent = (props: INoteContentProps) => {
 
       const content = serialize(value);
 
-      const url = `${process.env.REACT_APP_API_URL}/notes/${props.id}/`;
-
-      const token = process.env.REACT_APP_TOKEN;
-
-      const method = "PATCH";
-
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Authorization", `Bearer ${token}`);
-
       const body = {
         content,
       };
@@ -105,7 +95,7 @@ const NoteContent = (props: INoteContentProps) => {
     };
 
     patchNote();
-  }, [value, props.id]);
+  }, [value, props.id, state.token]);
 
   return (
     <div

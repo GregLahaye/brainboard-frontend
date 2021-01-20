@@ -19,11 +19,11 @@ const SignUp = () => {
       password,
     };
 
-    const signUpResponse = await Network.post("users", body);
+    await Network.post("users", body);
 
-    const loginInResponse = await Network.post("token", body);
+    const response = await Network.post("token", body);
 
-    const { token } = await loginInResponse.json();
+    const { token } = await response.json();
 
     const payload = { username, token };
 
