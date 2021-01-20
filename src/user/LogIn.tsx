@@ -1,8 +1,11 @@
 import { FormEvent, useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Network } from "../network/network";
 import { UserActionType, UserContext } from "./UserContext";
 
 const LogIn = () => {
+  const navigate = useNavigate();
+
   const { dispatch } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
@@ -22,6 +25,8 @@ const LogIn = () => {
     const payload = { username, token };
 
     dispatch({ type: UserActionType.LOGIN, payload });
+
+    navigate("/notes");
   };
 
   return (
@@ -38,12 +43,12 @@ const LogIn = () => {
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             Or{" "}
-            <a
-              href="#"
+            <Link
+              to="/signup"
               className="font-medium text-indigo-600 hover:text-indigo-500"
             >
               create an account
-            </a>
+            </Link>
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
