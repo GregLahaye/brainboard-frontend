@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Board from "./Board";
+import { Network } from "./network/network";
+import { UserContext } from "./user/UserContext";
 
 const HomeBoard = () => {
+  const { state } = useContext(UserContext);
+
   const [noteId, setNoteId] = useState<number>();
 
   const fetchId = async () => {
-    const url = `${process.env.REACT_APP_API_URL}/users/me/`;
-
-    const headers = new Headers();
-    headers.append("Authorization", `Bearer ${process.env.REACT_APP_TOKEN}`);
-
-    const response = await fetch(url, { headers });
+    const response = await Network.get("users/me", null, state.token);
 
     const user = await response.json();
 

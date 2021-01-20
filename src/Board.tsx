@@ -1,6 +1,12 @@
 // @refresh reset
 
-import React, { createRef, useEffect, useMemo, useState } from "react";
+import React, {
+  createRef,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { createEditor, Node } from "slate";
 import { withReact, Slate, Editable } from "slate-react";
 import AnimateNotes, { ForwardRefElement } from "./AnimateNotes";
@@ -8,6 +14,8 @@ import Note from "./Note";
 import { INote } from "./NoteContent";
 import { Quadrant } from "./math";
 import { useNavigate, useParams } from "react-router";
+import { Network } from "./network/network";
+import { UserContext } from "./user/UserContext";
 
 interface IBoardProps {
   noteId?: number;
@@ -22,6 +30,8 @@ const EMPTY = [
 
 const Board = (props: IBoardProps) => {
   const navigate = useNavigate();
+
+  const { state } = useContext(UserContext);
 
   const params = useParams();
   const { noteId } = params.noteId ? params : props;
@@ -50,21 +60,11 @@ const Board = (props: IBoardProps) => {
 
       console.log(srcId + " was dropped inside " + dstId);
 
-      const url = `${process.env.REACT_APP_API_URL}/notes/${src.id}/`;
-
-      const token = process.env.REACT_APP_TOKEN;
-
-      const method = "PATCH";
-
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Authorization", `Bearer ${token}`);
-
-      const body = JSON.stringify({
+      const body = {
         note: dst.id,
-      });
+      };
 
-      await fetch(url, { method, headers, body });
+      await Network.patch(`notes/${src.id}`, body, state.token);
     }
   };
 
@@ -117,21 +117,11 @@ const Board = (props: IBoardProps) => {
 
       setNotes(array); // update notes
 
-      const url = `${process.env.REACT_APP_API_URL}/notes/${src.id}/`;
-
-      const token = process.env.REACT_APP_TOKEN;
-
-      const method = "PATCH";
-
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Authorization", `Bearer ${token}`);
-
-      const body = JSON.stringify({
+      const body = {
         position: newPosition,
-      });
+      };
 
-      await fetch(url, { method, headers, body });
+      await Network.patch(`notes/${src.id}`, body, state.token);
     }
   };
 
@@ -146,23 +136,13 @@ const Board = (props: IBoardProps) => {
       (notes.length ? notes[notes.length - 1].position : 0) + 1000;
 
     if (content) {
-      const url = `${process.env.REACT_APP_API_URL}/notes/`;
-
-      const token = process.env.REACT_APP_TOKEN;
-
-      const method = "POST";
-
-      const headers = new Headers();
-      headers.append("Content-Type", "application/json");
-      headers.append("Authorization", `Bearer ${token}`);
-
-      const body = JSON.stringify({
+      const body = {
         content,
         position,
         note: noteId,
-      });
+      };
 
-      const response = await fetch(url, { method, headers, body });
+      const response = await Network.post("notes", body, state.token);
 
       const note = await response.json();
 
@@ -179,11 +159,7 @@ const Board = (props: IBoardProps) => {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      const headers = new Headers();
-      headers.append("Authorization", `Bearer ${process.env.REACT_APP_TOKEN}`);
-
-      const url = `${process.env.REACT_APP_API_URL}/notes/${noteId}/`;
-      const response = await fetch(url, { headers });
+      const response = await Network.get(`notes/${noteId}`, null, state.token);
 
       const note = await response.json();
 
@@ -224,21 +200,11 @@ const Board = (props: IBoardProps) => {
     array.splice(index, 1); // remove the src note
     setNotes(array);
 
-    const url = `${process.env.REACT_APP_API_URL}/notes/${id}/`;
-
-    const token = process.env.REACT_APP_TOKEN;
-
-    const method = "PATCH";
-
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", `Bearer ${token}`);
-
-    const body = JSON.stringify({
+    const body = {
       note: note?.note,
-    });
+    };
 
-    await fetch(url, { method, headers, body });
+    await Network.patch(`notes/${id}`, body, state.token);
   };
 
   const handleDeleteDrop = async (e: React.DragEvent<HTMLButtonElement>) => {
@@ -252,17 +218,7 @@ const Board = (props: IBoardProps) => {
     array.splice(index, 1); // remove the src note
     setNotes(array);
 
-    const url = `${process.env.REACT_APP_API_URL}/notes/${id}/`;
-
-    const token = process.env.REACT_APP_TOKEN;
-
-    const method = "DELETE";
-
-    const headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    headers.append("Authorization", `Bearer ${token}`);
-
-    await fetch(url, { method, headers });
+    await Network.delete(`notes/${id}`, null, state.token);
   };
 
   const navigateUp = () => {

@@ -1,9 +1,10 @@
 import { createContext, Dispatch, ReducerState } from "react";
+import { LocalStorage, LocalStorageKey } from "../local-storage/local-storage";
 
 /* User Interface */
 interface IUser {
-  username: string;
-  token: string;
+  username?: string;
+  token?: string;
 }
 
 /* Reducer Actions */
@@ -29,22 +30,19 @@ interface LogoutAction {
 
 type UserActionTypes = LoginAction | SignUpAction | LogoutAction;
 
-/* Local Storage Keys */
-enum LocalStorageKey {
-  USERNAME = "username",
-  TOKEN = "token",
-}
-
 /* initial user state */
-export const unauthenticated: IUser = { username: "", token: "" };
+export const initial: IUser = {
+  username: LocalStorage.get(LocalStorageKey.USERNAME),
+  token: LocalStorage.get(LocalStorageKey.TOKEN),
+};
 
 /* User Context */
 export const UserContext = createContext<{
   state: IUser;
   dispatch: Dispatch<UserActionTypes>;
 }>({
-  state: unauthenticated,
-  dispatch: () => unauthenticated,
+  state: initial,
+  dispatch: () => initial,
 });
 
 /* User Reducer */

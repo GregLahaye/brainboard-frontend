@@ -19,7 +19,7 @@ export class Network {
 
   public static async get(
     endpoint: string,
-    params: IParameters,
+    params: IParameters | null,
     token?: string
   ) {
     const headers = new Headers();
@@ -71,7 +71,7 @@ export class Network {
 
   public static async delete(
     endpoint: string,
-    params: IParameters,
+    params: IParameters | null,
     token?: string
   ) {
     const headers = new Headers();

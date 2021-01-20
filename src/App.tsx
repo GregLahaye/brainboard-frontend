@@ -6,10 +6,10 @@ import Board from "./Board";
 import HomeBoard from "./HomeBoard";
 import LogIn from "./user/LogIn";
 import SignUp from "./user/SignUp";
-import { userReducer, UserContext, unauthenticated } from "./user/UserContext";
+import { userReducer, UserContext, initial } from "./user/UserContext";
 
 const App = () => {
-  const [state, dispatch] = useReducer(userReducer, unauthenticated);
+  const [state, dispatch] = useReducer(userReducer, initial);
 
   return (
     <UserContext.Provider value={{ state, dispatch }}>

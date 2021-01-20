@@ -1,11 +1,13 @@
 // @refresh reset
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useContext } from "react";
 import { useNavigate } from "react-router";
 import { createEditor, Node } from "slate";
 import { Editable, Slate, withReact } from "slate-react";
+import { Network } from "./network/network";
 
 import "./NoteContent.css";
+import { UserContext } from "./user/UserContext";
 
 export interface INote {
   id: number;
@@ -24,6 +26,8 @@ const dropColor = "blue-600";
 
 const NoteContent = (props: INoteContentProps) => {
   const navigate = useNavigate();
+
+  const { state } = useContext(UserContext);
 
   const [color, setColor] = useState(defaultColor);
   const [count, setCount] = useState(0); // workaround for unstable drag events
@@ -93,11 +97,11 @@ const NoteContent = (props: INoteContentProps) => {
       headers.append("Content-Type", "application/json");
       headers.append("Authorization", `Bearer ${token}`);
 
-      const body = JSON.stringify({
+      const body = {
         content,
-      });
+      };
 
-      await fetch(url, { method, headers, body });
+      await Network.patch(`notes/${props.id}`, body, state.token);
     };
 
     patchNote();
