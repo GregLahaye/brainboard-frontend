@@ -1,5 +1,5 @@
 import { FormEvent, useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Network } from "../network/network";
 import { UserActionType, UserContext } from "./UserContext";
 
