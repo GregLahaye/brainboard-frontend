@@ -22,13 +22,14 @@ const Home = () => {
             >
               <div className="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
                 <div className="flex items-center justify-between w-full md:w-auto">
-                  <a href="#">
+                  <Link to={"/"}>
                     <span className="sr-only">Workflow</span>
                     <img
                       className="h-8 w-auto sm:h-10"
                       src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
+                      alt="Workflow"
                     />
-                  </a>
+                  </Link>
                   <div className="-mr-2 flex items-center md:hidden">
                     <button
                       type="button"
@@ -46,9 +47,9 @@ const Home = () => {
                         aria-hidden="true"
                       >
                         <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
                           d="M4 6h16M4 12h16M4 18h16"
                         />
                       </svg>
@@ -57,19 +58,19 @@ const Home = () => {
                 </div>
               </div>
               <div className="hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-                <a
-                  href="#"
+                <Link
+                  to={"/"}
                   className="font-medium text-gray-500 hover:text-gray-900"
                 >
                   About
-                </a>
+                </Link>
 
-                <a
-                  href="#"
+                <Link
+                  to={"/"}
                   className="font-medium text-gray-500 hover:text-gray-900"
                 >
                   Contact
-                </a>
+                </Link>
 
                 <Link
                   to={"/login"}
@@ -106,9 +107,9 @@ const Home = () => {
                       aria-hidden="true"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="M6 18L18 6M6 6l12 12"
                       />
                     </svg>
@@ -121,21 +122,21 @@ const Home = () => {
                 aria-labelledby="main-menu"
               >
                 <div className="px-2 pt-2 pb-3 space-y-1" role="none">
-                  <a
-                    href="#"
+                  <Link
+                    to={"/"}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                     role="menuitem"
                   >
                     About
-                  </a>
+                  </Link>
 
-                  <a
-                    href="#"
+                  <Link
+                    to={"/"}
                     className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                     role="menuitem"
                   >
                     Contact
-                  </a>
+                  </Link>
                 </div>
                 <div role="none">
                   <Link
