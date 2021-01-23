@@ -4,10 +4,6 @@ import { Network } from "../network/network";
 import { UserActionType, UserContext } from "./UserContext";
 
 const LogIn = () => {
-  const navigate = useNavigate();
-
-  const location = useLocation();
-
   const { dispatch } = useContext(UserContext);
 
   const [username, setUsername] = useState("");
