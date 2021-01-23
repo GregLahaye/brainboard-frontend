@@ -2,6 +2,7 @@ import React, { useReducer } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Board from "./Board";
+import Home from "./Home";
 import HomeBoard from "./HomeBoard";
 import NotFound from "./NotFound";
 import AnonymousRoute from "./router/AnonymousRoute";
@@ -21,7 +22,8 @@ const App = () => {
           <AnonymousRoute path="/signup" element={<SignUp />} />
           <ProtectedRoute path="/notes/:noteId" element={<Board />} />
           <ProtectedRoute path="/notes" element={<HomeBoard />} />
-          <Route path="*" element={<NotFound />}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
