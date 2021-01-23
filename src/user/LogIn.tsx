@@ -1,10 +1,12 @@
 import { FormEvent, useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Network } from "../network/network";
 import { UserActionType, UserContext } from "./UserContext";
 
 const LogIn = () => {
   const navigate = useNavigate();
+
+  const location = useLocation();
 
   const { dispatch } = useContext(UserContext);
 
@@ -25,8 +27,6 @@ const LogIn = () => {
     const payload = { username, token };
 
     dispatch({ type: UserActionType.LOGIN, payload });
-
-    navigate("/notes");
   };
 
   return (
